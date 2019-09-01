@@ -1,0 +1,49 @@
+﻿
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+    <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+        <div class="card">
+            <form asp-action="Create">
+                <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                    <i class="fa fa-edit"></i> Thêm mới
+
+                </div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                        <h4 class="modal-title" id="myModalLabel">Thêm mới Tác giả</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" id="fullname-input" class="form-control" placeholder="Full Name" name="FullName" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="nickname-input" class="form-control" placeholder="Nick name" name="Nickname" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="description-input" class="form-control" placeholder="Description" name="Description" required="">
+                        </div>
+
+                        <div class="form-group" placeholder="Status" name ="Status">
+                            <select class="form-control" name ="Status">
+                                <label name ="Status" class="control-label"></label>
+                                <option value="1">Active</option>
+
+                            </select>
+                            
+                        </div>
+                        
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a type="button" class="btn btn-default" asp-action="Index" >HỦY</a>
+                    <button type="submit" id="add-row" class="btn btn-success"asp-action="Create" >THÊM</button>
+                </div>
+            </form>
+        </div>
+    </div>

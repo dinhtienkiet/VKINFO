@@ -1,0 +1,273 @@
+﻿@model VKINFO.APPLICATION.BooksAdmin.Commands.CreateBookAdmin.CreateBookAdminViewModel
+@{
+    var n = 0;
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                        <i class="fa fa-edit"></i> Sửa Truyện
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" name="Id" value="@Model.bookDto.Id" />
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <input name="Title" asp-for="@Model.bookDto.Title" class="form-control" />
+                                        <span asp-for="@Model.bookDto.Title" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label name="Description" class="control-label"></label>
+                                        <textarea asp-for="@Model.bookDto.Description" rows="5" cols="300" name="Description" class="form-control"></textarea>
+                                        <span name="Description" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group mt-2">
+                                        <label class="btn btn-primary control-label col-md-12">
+                                            <i class="glyphicon glyphicon-picture"></i> Upload Image
+                                            <input type="file" asp-for="@Model.bookDto.Image" id="fileUpload" name="fileUpload" style="display: none;" />
+                                        </label>&nbsp;
+                                    </div>
+                                    <div class="form-group" id="imgPreview" style="display:block">
+                                        <img src="@Url.Content(Model.bookDto.Image)" id="targetImg" class="rounded mx-auto d-block" style="width: 400px; height: 400px" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Chọn thể loại:</label>
+                                        <span>
+                                            <select asp-for="@Model.bookDto.GenreID" name="GenreID" class="form-control">
+                                                @foreach (var iterm in Model.genreAdminViewModels)
+                                                {
+                                                    <option value="@iterm.Id">@iterm.Name</option>
+                                                }
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Chọn tác giả</label>
+                                        <span>
+                                            <select asp-for="@Model.bookDto.AuthorId" name="AuthorId" class="form-control">
+                                                @foreach (var iterm in Model.authorAdminViewModels)
+                                                {
+                                                    <option value="@iterm.Id">@iterm.FullName</option>
+                                                }
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Chọn danh mục:</label>
+                                        <span>
+                                            <select asp-for="@Model.bookDto.CategoriesID" name="CategoriesID" class="form-control">
+                                                @foreach (var iterm in Model.categoryAdminViewModelList)
+                                                {
+                                                    <option value="@iterm.Id">@iterm.Name</option>
+                                                }
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label"></label>
+                                        <select asp-for="bookDto.Status" name="Status" class="form-control">
+                                            <option value="1">Hoàn thành</option>
+                                            <option value="2">Chưa hoàn thành</option>
+                                        </select>
+                                        <span class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Save" class="btn btn-default" />
+                                        <a class="btn btn-danger" href=@Url.Action("Index","Book")>Cance</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row" style="padding: 20px 30px 20px 30px">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        @if (Model.bookDto.Status != 1)
+                                        {
+                                            <div class="card-header-actions">
+                                                <button type="button" class="btn btn-info btn-addon"><i class="fa fa-plus"></i> <a asp-route-id="@Model.bookDto.Id" asp-action="CreateChapter" style="color: white">Thêm Chapter</a></button>
+                                            </div>
+                                        }
+                                        <h3>Danh sách Chapter</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" aria-sort="descending" style="width: 151px;">Stt</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" aria-sort="descending" style="width: 281px;">Title</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending" style="width: 240.2px;">Description</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date Created: activate to sort column ascending" style="width: 240.2px;">Date Created</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="DateModified: activate to sort column ascending" aria-sort="descending" style="width: 281px;">Date Modified</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 121.8px;">Status</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 129.2px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var iterm in Model.bookDto.chapterAdminByIdBookViewModels)
+                                            {
+                                                var check = iterm.Status;
+                                                n++;
+                                                <tr role="row" class="odd">
+                                                    <td>@n</td>
+                                                    <td class="sorting_1">@iterm.Title</td>
+                                                    <td class="sorting_1">@iterm.Description</td>
+                                                    <td>@iterm.DateCreated.ToString("MM/dd/yyyy")</td>
+                                                    <td>@iterm.DateModified.ToString("MM/dd/yyyy")</td>
+                                                    @if (check != 1)
+                                                    {
+                                                        <td>
+                                                            <span class="badge badge-success" style="height:25px;background-color:#38a3b3">Chưa hoàn thành</span>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            <span class="badge badge-success" style="height:25px;background-color:seagreen"> Hoàn thành</span>
+                                                        </td>
+                                                    }
+                                                    <td>
+                                                        @if (Model.bookDto.Status != 1)
+                                                        {
+                                                            <a class="btn btn-info" asp-route-id="@iterm.Id" asp-action="EditChapter">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a>
+                                                        }
+                                                        <a class="btn btn-danger" onclick="return btDelete()" asp-route-id="@iterm.Id" asp-action="DeleteChapter">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 10 of 32 entries</div>
+                                </div><div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">
+                                            @if (Model.bookDto.CurrentChapterPage == 1)
+                                            {
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
+                                                    <a aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item previous" id="DataTables_Table_0_previous">
+                                                    <a href=@Url.Action("Edit","Book", new { Id = Model.bookDto.Id, page = Model.bookDto.PreviousChapterPage }) aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                                </li>
+                                            }
+                                            @if (Model.bookDto.CurrentChapterPage - 3 > 0)
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage -3})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage - 3)</a>
+                                                </li>
+                                            }
+                                            @if (Model.bookDto.CurrentChapterPage - 2 > 0)
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage - 2})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage - 2)</a>
+                                                </li>
+                                            }
+                                            @if (Model.bookDto.CurrentChapterPage - 1 > 0)
+                                            {
+                                                <li class="paginate_button page-item active">
+                                                    <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage -1})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage - 1)</a>
+                                                </li>
+                                            }
+                                            <li style="background-color:red" class="paginate_button">
+                                                <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage)</a></listyle="background-color:blue">
+                                                @if (Model.bookDto.CurrentChapterPage + 1 <= Model.bookDto.TotalChapterPage)
+                                                {
+                                                <li class="paginate_button page-item active">
+                                                    <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage +1})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage + 1)</a>
+                                                </li>
+                                            }
+                                                @if (Model.bookDto.CurrentChapterPage + 2 <= Model.bookDto.TotalChapterPage)
+                                                {
+                                                    <li class="paginate_button page-item active">
+                                                        <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage +2})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage + 2)</a>
+                                                    </li>
+                                                }
+                                                @if (Model.bookDto.CurrentChapterPage + 3 <= Model.bookDto.TotalChapterPage)
+                                                {
+                                                    <li class="paginate_button page-item active">
+                                                        <a href="@Url.Action("Edit","Book",new {Id = Model.bookDto.Id,page = Model.bookDto.CurrentChapterPage + 3})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.bookDto.CurrentChapterPage + 3)</a>
+                                                    </li>
+                                                }
+                                                @if (Model.bookDto.CurrentChapterPage == Model.bookDto.TotalChapterPage)
+                                                {
+                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next">
+                                                        <a href=@Url.Action("Edit","Book", new { id = Model.bookDto.Id, page = Model.bookDto.NextChapterPage }) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Next</a>
+                                                    </li>
+
+                                                }
+                                                else
+                                                {
+                                                    <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                        <a href=@Url.Action("Edit","Book", new { id = Model.bookDto.Id, page = Model.bookDto.NextChapterPage }) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Next</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            var File = this.files;
+            if (File && File[0]) {
+                ReadImage(File[0]);
+            }
+            else {
+                $("#targetImg").attr('src','@Url.Content(Model.bookDto.Image)');
+            }
+        })
+    })
+    var ReadImage = function (file) {
+        var reader = new FileReader;
+        var image = new Image;
+        reader.readAsDataURL(file);
+        reader.onload = function (_file) {
+            image.src = _file.target.result;
+            image.onload = function () {
+                $("#targetImg").attr('src', _file.target.result);
+                $("#imgPreview").show();
+            }
+        }
+    }
+    </script>
+    <script>
+        function btDelete() {
+            var x = confirm('Are you sure you want to delete ?');
+            if (x) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+

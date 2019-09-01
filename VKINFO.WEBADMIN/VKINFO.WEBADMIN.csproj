@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\asset\node_modules\**" />
+    <Content Remove="wwwroot\asset\node_modules\**" />
+    <EmbeddedResource Remove="wwwroot\asset\node_modules\**" />
+    <None Remove="wwwroot\asset\node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Alexinea.Autofac.Extensions.DependencyInjection" Version="4.2.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.12" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VKINFO.COMMON\VKINFO.COMMON.csproj" />
+    <ProjectReference Include="..\VKINFO.PERSISTENCE\VKINFO.PERSISTENCE.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\images\book\" />
+  </ItemGroup>
+
+</Project>

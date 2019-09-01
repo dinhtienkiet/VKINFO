@@ -1,0 +1,37 @@
+﻿@model VKINFO.APPLICATION.ChapterUI.Queries.GetChapter.ChapterViewModel
+
+@{
+    ViewData["Title"] = Model.Title + " - " + Model.Book.Title;
+}
+
+<div class="ereaders-main-content">
+    <div class="container">
+        <h5 style="text-align:center">
+            <a href=@Url.Action("Index", "Book", new { id = Model.BookId })><h2 style="font-size:38px">@Model.Book.Title</h2></a>
+        </h5>
+        <div class="ereaders-pagination">
+            <ul class="page-numbers">
+                @if (Model.Previous == 0)
+                {
+                    <li><a class="previous page-numbers"><span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span></a></li>
+                }
+                else
+                {
+                    <li><a class="previous page-numbers" href=@Url.Action("Index", "Chapter", new { id = Model.Previous })><span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span></a></li>
+                }
+                <a style="text-align:center; font-size:28px">@Model.Title . </a>
+                @if (Model.Next == 0)
+                {
+                    <li><a class="next page-numbers"><span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span></a></li>
+                }
+                else
+                {
+                <li><a class="next page-numbers" href=@Url.Action("Index", "Chapter", new { id = Model.Next })><span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span></a></li>
+                }
+            </ul>
+        </div>
+        <div style="padding:inherit">
+            <p style="font-size:23px">@Html.Raw(Model.Content)</p>
+        </div>
+    </div>
+</div>

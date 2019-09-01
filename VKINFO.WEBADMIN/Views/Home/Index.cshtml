@@ -1,0 +1,122 @@
+﻿@model VKINFO.APPLICATION.HomeAdmin.Queries.GetHomeAdmin.HomeAdminViewModel
+@{
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Page Inner -->
+<div class="page-inner">
+    <div class="page-title">
+        <h3 class="breadcrumb-header">Dashboard</h3>
+    </div>
+    <div id="main-wrapper">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-white stats-widget" style="background-color:aqua">
+                    <div class="panel-body">
+                        <div class="pull-left">
+                            <span class="stats-number">@Model.books.Count()</span>
+                            <p class="stats-info">Total Book</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-white stats-widget" style="background-color:chartreuse">
+                    <div class="panel-body">
+                        <div class="pull-left">
+                            <span class="stats-number">@Model.chapters.Count()</span>
+                            <p class="stats-info">Total Chapter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-white stats-widget" style="background-color:cadetblue">
+                    <div class="panel-body">
+                        <div class="pull-left">
+                            <span class="stats-number">@Model.authors.Count()</span>
+                            <p class="stats-info">Total Authors</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-white stats-widget" style="background-color:brown">
+                    <div class="panel-body">
+                        <div class="pull-left">
+                            <span class="stats-number">@Model.categories.Count()</span>
+                            <p class="stats-info">Total category</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Row -->
+    </div><!-- Main Wrapper -->
+    <div class="row" style="margin-top:100px;">
+        <div class="col-md-8" id="chartContainer" style="height: 500px; width: 500px;"></div>      
+        <div class="col-md-4 " id="chartContainerGenre" style="height: 500px; width: 500px; margin-left:300px;"></div>
+    </div>
+    <div class="page-footer">
+        <p>Made with <i class="fa fa-heart"></i> by stacks</p>
+    </div>
+</div><!-- /Page Inner -->
+@{
+    string line = "[";
+    foreach (var interm in Model.categories)
+    {
+        line += "{ y:" + interm.BookCategories.Count() + "," + "indexLabel :" + "'" + interm.Name + "'" + "},";
+    }
+    line = line.Substring(0, line.Length - 1);
+    line = line + "]";
+
+    string text = "[";
+    foreach (var interm in Model.genres)
+    {
+        text += "{ y:" + interm.BookGenres.Count() + "," + "indexLabel :" + "'" + interm.Name + "'" + "},";
+    }
+    text = text.Substring(0, text.Length - 1);
+    text = text + "]";
+}
+<script type="text/javascript">
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer",
+            {
+                title: {
+                    text: "Category Chart"
+                },
+                legend: {
+                    maxWidth: 350,
+                    itemWidth: 120
+                },
+                data: [
+                    {
+                        type: "pie",
+                        showInLegend: true,
+                        legendText: "{indexLabel}",
+                        dataPoints:@Html.Raw(line)
+                    }
+                ]
+            });
+    var chartGenre = new CanvasJS.Chart("chartContainerGenre",
+            {
+                title: {
+                    text: "Genre Chart"
+                },
+                legend: {
+                    maxWidth: 350,
+                    itemWidth: 120
+                },
+                data: [
+                    {
+                        type: "pie",
+                        showInLegend: true,
+                        legendText: "{indexLabel}",
+                        dataPoints:@Html.Raw(text)
+                    }
+                ]
+            });
+        chart.render();
+        chartGenre.render();
+    }
+</script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>

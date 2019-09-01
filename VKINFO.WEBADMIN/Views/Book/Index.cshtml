@@ -1,0 +1,151 @@
+﻿@model VKINFO.APPLICATION.BooksAdmin.Queries.GetAllBookAdmin.BookAdminViewModelList
+@{
+    var page = 0;
+    var t = 0;
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                        <i class="fa fa-edit"></i> Truyện
+                        <div class="card-header-actions" style="float:right; padding-right: 20px">
+                            <a asp-action="Create">
+                                Thêm mới
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" style="width:100px;" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="STT: activate to sort column ascending" aria-sort="descending">STT</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 240.2px;">Tên Truyện</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date Created: activate to sort column ascending" style="width: 240.2px;">Tác Giả</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Anh: activate to sort column ascending" aria-sort="descending" style="width: 221px;">Hình Ảnh</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending" style="width: 250.2px;">Giới Thiệu</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date Created: activate to sort column ascending" style="width: 140.2px;">Ngày Đăng</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="SoChuong: activate to sort column ascending" style="width: 140.2px;">Số Chương</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 121.8px;">Status</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 150.2px;">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var iterm in Model.bookAdminViewModels)
+                                            {
+                                                var check = iterm.Status;
+                                                t++;
+                                                <tr role="row" class="odd">
+                                                    <td>@t</td>
+                                                    <td class="sorting_1">@iterm.Title</td>
+                                                    <td class="sorting_1">@iterm.AuthorName</td>
+                                                    <td><img width="221px" height="260px" src="@iterm.Image" /></td>
+                                                    <td><p>@iterm.Description</p></td>
+                                                    <td>@iterm.DateCreated.ToString("MM/dd/yyyy")</td>
+                                                    <td>@iterm.ChapterNumber</td>
+                                                    @if (check == 1)
+                                                    {
+                                                        <td>
+                                                            <span class="badge badge-warning" style="height:25px;background-color:seagreen">Hoàn thành</span>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            <span class="badge badge-success" style="height:25px;background-color:#38a3b3">Chưa hoàn thành</span>
+                                                        </td>
+                                                    }
+
+                                                    <td>
+                                                        <a class="btn btn-info" asp-route-id="@iterm.Id" asp-action="Edit">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <a class="btn btn-danger" onclick="return btDelete()" asp-route-id="@iterm.Id" asp-action="Delete">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 1 @Model.TotalPage entries</div>
+                                </div><div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">
+                                            @if (Model.CurrentPage == 1)
+                                            {
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item previous" id="DataTables_Table_0_previous"><a href="@Url.Action("Index","Book",new {page = Model.PreviousPage})" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                                            }
+                                            @if (Model.CurrentPage - 3 > 0)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage - 3})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage - 3)</a></li>
+                                            }
+                                            @if (Model.CurrentPage - 2 > 0)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage - 2})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage - 2)</a></li>
+                                            }
+                                            @if (Model.CurrentPage - 1 > 0)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage -1})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage - 1)</a></li>
+                                            }
+                                            <li class="paginate_button"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage)</a></li>
+                                            @if (Model.CurrentPage + 1 <= Model.TotalPage)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage +1})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage + 1)</a></li>
+                                            }
+                                            @if (Model.CurrentPage + 2 <= Model.TotalPage)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage +2})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage + 2)</a></li>
+                                            }
+                                            @if (Model.CurrentPage + 3 <= Model.TotalPage)
+                                            {
+                                                <li class="paginate_button page-item active"><a href="@Url.Action("Index","Book",new {page = Model.CurrentPage + 3})" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">@(Model.CurrentPage + 3)</a></li>
+                                            }
+                                            @if (Model.CurrentPage == Model.TotalPage)
+                                            {
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="@Url.Action("Index","Book", new {page = Model.NextPage})" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Next</a></li>
+
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="@Url.Action("Index","Book", new {page = Model.NextPage})" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Next</a></li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function btDelete() {
+        var x = confirm('Are you sure you want to delete ?');
+        if (x) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+</script>

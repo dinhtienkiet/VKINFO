@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <form asp-action="Create">
+                        <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                            <i class="fa fa-edit"></i> Thêm thể loại
+                            <hr />
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="text" id="name-input" class="form-control" name="Name" placeholder="Tên" required="">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="position-input" class="form-control" name="Description" placeholder="Mô tả" required="" rows="6"></textarea>
+                                </div>
+                                <div class="form-group" name="Status">
+                                    <label> Status</label>
+                                    
+                                    <select class="form-control">
+                                        <option value="1">Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a asp-action="Index" class="btn btn-default">Cancel</a>
+                                <button type="submit" id="add-row" class="btn btn-success">Add</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

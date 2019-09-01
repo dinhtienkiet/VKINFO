@@ -1,0 +1,43 @@
+﻿@model VKINFO.APPLICATION.CategoryAdmin.Commands.CreateCategory.CategoryAdminCommand
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                        <i class="fa fa-edit"></i> Category
+                        <hr />
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Category</h4>
+                            </div>
+                            <form asp-action="Create">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="text" asp-for="Name" id="name-input" class="form-control" placeholder="Tên" required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea asp-for="Description" id="position-input" class="form-control" placeholder="Mô tả" required="" rows="6"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" id="add-row" class="btn btn-success">Add</button>
+                                </div>
+                            </form>
+                           
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

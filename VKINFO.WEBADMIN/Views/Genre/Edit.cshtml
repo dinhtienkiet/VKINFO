@@ -1,0 +1,173 @@
+﻿@model VKINFO.APPLICATION.GenreAdmin.Queries.GetGenreAdmin.GenreDetailAdminViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                        <i class="fa fa-edit"></i>  Sửa Thể loại
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form asp-action="Edit">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" asp-for="Id" />
+                                    <div class="form-group">
+                                        <label asp-for="Name" class="control-label">Tên Thể Loại</label>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Description" class="control-label">Mô Tả</label>
+                                        <textarea id="position-input" asp-for="Description" class="form-control" placeholder="Mô tả" required="" rows="6"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Status" class="control-label"></label>
+                                        <select asp-for="Status" class="form-control">
+                                            <option value="1">1</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" value="Save" class="btn btn-default" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row" style="padding: 20px 30px 20px 30px">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label>
+                                            Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                                                <option value="10">10</option>
+                                                <option value="25">25</option>
+                                                <option value="50">50</option>
+                                                <option value="100">100</option>
+                                            </select>
+                                        </label>
+                                        <h3>Danh sách truyện</h3>
+                                        <hr />
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter" style="float:right">
+                                        <label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="ID: activate to sort column ascending" aria-sort="descending" style="width: 50px;">ID</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Title: activate to sort column ascending" style="width: 140.2px;">Title</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Slug: activate to sort column ascending" style="width: 140.2px;">Slug</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Description: activate to sort column ascending" aria-sort="descending" style="width: 381px;">Description</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date Created: activate to sort column ascending" style="width: 240.2px;">Date Created</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="DateModified: activate to sort column ascending" aria-sort="descending" style="width: 231px;">Date Modified</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 101.8px;">Status</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 109.2px;">Detail</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.BookGenres.Count == 0)
+                                            {
+                                                <h4 style="color: red">Danh sách truyện trống </h4>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var item in Model.BookGenres)
+                                                {
+                                                    <tr role="row" class="odd">
+                                                        <td>@item.Book.Id</td>
+                                                        <td class="sorting_1">@item.Book.Title</td>
+                                                        <td class="sorting_1">@item.Book.Slug</td>
+                                                        <td>@item.Book.Description</td>
+                                                        <td>@item.Book.DateCreated</td>
+                                                        <td>@item.Book.DateModified</td>
+                                                        <td>
+                                                            <span class="badge badge-success">Active</span>
+                                                        </td>
+                                                        <td>
+                                                            <a class="btn btn-success" asp-controller="Book" asp-action="Edit" asp-route-Id="@item.BookId">
+                                                                <i class="fa fa-search-plus"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12 col-md-5"></div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                <a href=@Url.Action("Edit", "Genre", new {page = Model.PreviousPage}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Previous</a>
+                                            </li>
+                                            @if (Model.CurrentPage < 4)
+                                            {
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = 1}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">1</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = 2 }) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">2</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = 3}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">3</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = 4}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">4</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = 5}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">5</a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = Model.CurrentPage - 2}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">@(Model.CurrentPage - 2)</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = Model.CurrentPage - 1 }) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">@(Model.CurrentPage - 1)</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = Model.CurrentPage}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">@Model.CurrentPage</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = Model.CurrentPage + 1}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">@(Model.CurrentPage + 1)</a>
+                                                </li>
+                                                <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                    <a href=@Url.Action("Edit", "Genre", new {page = Model.CurrentPage + 2}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">@(Model.CurrentPage + 2)</a>
+                                                </li>
+                                            }
+                                            <li class="paginate_button page-item next" id="DataTables_Table_0_next">
+                                                <a href=@Url.Action("Edit", "Genre", new {page = Model.NextPage}) aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">Next</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

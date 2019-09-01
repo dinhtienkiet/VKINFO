@@ -1,0 +1,104 @@
+﻿@model VKINFO.APPLICATION.BooksAdmin.Commands.CreateBookAdmin.CreateBookAdminViewModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                        <i class="fa fa-edit"></i> Thêm mới truyện
+                        <hr />
+                        <form asp-action="Create" method="post" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input name="Title" type="text" id="name-input" class="form-control" placeholder="Tên" required="">
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="btn btn-primary control-label col-md-12">
+                                        <i class="glyphicon glyphicon-picture"></i> Upload Image
+                                        <input type="file" id="fileUpload" name="fileUpload" class="form-control" style="display: none;" />
+                                    </label>&nbsp;
+                                </div>
+                                <div class="form-group" id="imgPreview" style="display:block">
+                                    <img src="https://images.pexels.com/photos/376718/pexels-photo-376718.jpeg?cs=srgb&dl=ch-tr-ng-tr-ng-tr-ng-tr-n-376718.jpg&fm=jpg" id="targetImg" class="rounded mx-auto d-block" style="width: 400px; height: 400px" />
+                                </div>
+                                <div class="form-group">
+                                    <textarea name="Description" id="position-input" class="form-control" placeholder="Mô tả" rows="6"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Author</label>
+                                    <span>
+                                        <select name="AuthorId" class="form-control">
+                                            @foreach (var iterm in Model.authorAdminViewModels)
+                                            {
+                                                <option value="@iterm.Id">@iterm.FullName</option>
+                                            }
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label"><h5>Chọn thể loại:</h5></label></br>
+                                    <span>
+                                        @foreach (var iterm in Model.genreAdminViewModels)
+                                        {                                                                         
+                                        <div class="col-lg-3">
+                                            <input name="GenreID" type="checkbox" value="@iterm.Id" />
+                                            <span>@iterm.Name</span>
+                                        </div>                                     
+                                        }
+                                    </span>
+                                </div></br>
+                                <div class="form-group">
+                                    <h5 style="padding-top:30px;">Chọn danh mục:</h5>
+                                    <span>
+                                        @foreach (var iterm in Model.categoryAdminViewModelList)
+                                        {
+                                            <div class="col-lg-3">
+                                                <input name="CategoriesID" type="checkbox" value="@iterm.Id" />
+                                                <span>@iterm.Name</span>
+                                            </div>
+                                        }
+                                    </span>
+                                </div></br>              
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" asp-action="Index" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" id="add-row" class="btn btn-success">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#fileUpload").change(function () {
+            var File = this.files;
+            if (File && File[0]) {
+                ReadImage(File[0]);
+            }
+            else {
+                $("#targetImg").attr('src', 'https://images.pexels.com/photos/376718/pexels-photo-376718.jpeg?cs=srgb&dl=ch-tr-ng-tr-ng-tr-ng-tr-n-376718.jpg&fm=jpg');
+            }
+        })
+    })
+    var ReadImage = function (file) {
+        var reader = new FileReader;
+        var image = new Image;
+        reader.readAsDataURL(file);
+        reader.onload = function (_file) {
+            image.src = _file.target.result;
+            image.onload = function () {
+                $("#targetImg").attr('src', _file.target.result);
+                $("#imgPreview").show();
+            }
+        }
+    }
+</script>

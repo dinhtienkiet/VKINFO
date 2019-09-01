@@ -1,0 +1,184 @@
+﻿@model VKINFO.APPLICATION.BooksUI.Queries.GetBook.BookViewModel
+
+@{
+    ViewData["Title"] = Model.Book.Title;
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<div class="ereaders-main-content">
+    <!--// Main Section \\-->
+    <div class="ereaders-main-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ereaders-book-wrap">
+                        <div class="row">
+                            <div class="col-md-5">
+                                @if (Model.Book.Image != "")
+                                {
+                                    <img src=@Model.Book.Image alt="" class="ereaders-book-thumb">
+                                }
+                                else
+                                {
+                                    <img src="~/assets/images/logo.png" style="crop:inherit" alt="" class="ereaders-book-thumb">
+                                }
+                            </div>
+                            <div class="col-md-7">
+                                <div class="ereaders-detail-thumb-text">
+                                    <h2 style="font-size: 38px">@Model.Book.Title</h2>
+                                    <div class="clearfix"></div>
+                                    <p>@Model.Book.Description</p>
+                                    <div class="ereaders-number-select">
+                                        <a href=@Url.Action("Index", "Chapter",
+                                               new { id = Model.Chapters.Where(x => x.BookId == Model.Book.Id).Select(x => x.Id).FirstOrDefault() })
+                                           class="ereaders-detail-btn">Đọc truyện </a>
+                                    </div>
+                                    <ul class="ereaders-detail-social">
+                                        <li><h6>Chia sẻ truyện:</h6></li>
+                                        <li><a href="https://www.facebook.com/" class="fa fa-facebook"></a></li>
+                                        <li><a href="https://twitter.com/login?lang=en" class="fa fa-twitter"></a></li>
+                                        <li><a href="https://www.pinterest.com/login/" class="fa fa-pinterest-p"></a></li>
+                                        <li><a href="https://plus.google.com/" class="fa fa-google-plus"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="ereaders-section-heading">Chi Tiết Truyện</h2>
+                    <div class="ereaders-book-detail">
+                        <ul>
+                            <li>
+                                <h6>Tên truyện</h6>
+                                <p>@Model.Book.Title</p>
+                            </li>
+                            <li>
+                                <h6>Tác giả</h6>
+                                <p><a href=@Url.Action("Index", "Author", new { id = Model.Book.AuthorId})>@Model.Book.Author.FullName</a></p>
+                            </li>
+                            <li>
+                                <h6>Trạng thái, số chapter</h6>
+                                <p>
+                                    @if (@Model.Book.Status == 1)
+                                    {
+                                        <span>Full</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Chưa xong</span>
+                                    } - @Model.Book.Chapters.Count  chapter
+                                </p>
+                            </li>
+                            <li>
+                                <h6>Danh mục</h6>
+                                <p>
+                                    @foreach (var cat in Model.Book.BookCategories)
+                                    {
+                                        <a href=@Url.Action("Index", "CategoryList", new { id = cat.CategoryId})>@cat.Category.Name , </a>
+                                    }
+                                </p>
+                            </li>
+                            <li>
+                                <h6>Thể loại</h6>
+                                <p>
+                                    @foreach (var gen in Model.Book.BookGenres)
+                                    {
+                                        <a href=@Url.Action("Index", "GenreList", new { id = gen.GenreId})>@gen.Genre.Name , </a>
+                                    }
+                                </p>
+                            </li>
+                            <li>
+                                <h6>Ngày đăng</h6>
+                                <p>@Model.Book.DateCreated.ToString("dd/MM/yyyy")</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <h2 class="ereaders-section-heading">Danh sách chapter:</h2>
+                    <div class="ereaders-rich-editor">
+                        <p>
+                            @foreach (var chap in Model.Chapters)
+                            {
+                            <p><a href=@Url.Action("Index", "Chapter", new { id = chap.Id })>@chap.Title</a></p>
+                        }
+                            <div class="ereaders-pagination">
+                                <ul class="page-numbers">
+                                    @if (Model.CurrentChapterPage <= 1)
+                                    {
+                                        <li>
+                                            <a class="previous page-numbers">
+                                                <span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a class="previous page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.PreviousChapterPage })>
+                                                <span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span>
+                                            </a>
+                                        </li>
+                                    }
+                                    @if (Model.CurrentChapterPage >= 2)
+                                    {
+                                        if (Model.CurrentChapterPage >= 3)
+                                        {
+                                            <li><a class="page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.CurrentChapterPage - 2 })>@(Model.CurrentChapterPage - 2)</a></li>
+                                        }
+                                        <li><a class="page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.CurrentChapterPage - 1 })>@(Model.CurrentChapterPage - 1)</a></li>
+                                    }
+                                    <li><span class="page-numbers current">@(Model.CurrentChapterPage)</span></li>
+                                    @if (Model.CurrentChapterPage + 1 <= Model.TotalChapterPage)
+                                    {
+                                        <li><a class="page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.CurrentChapterPage + 1 })>@(Model.CurrentChapterPage + 1)</a></li>
+                                        if (Model.CurrentChapterPage + 2 <= Model.TotalChapterPage)
+                                        {
+                                            <li><a class="page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.CurrentChapterPage + 2 })>@(Model.CurrentChapterPage + 2)</a></li>
+                                        }
+                                    }
+                                    @if (Model.CurrentChapterPage >= Model.TotalChapterPage)
+                                    {
+                                        <li>
+                                            <a class="next page-numbers">
+                                                <span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a class="next page-numbers" href=@Url.Action("Index", "Book", new { id = Model.Book.Id, page = Model.NextChapterPage})>
+                                                <span aria-label="Next"><i class="icon ereaders-arrow-point-to-right"></i></span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            </p>
+                        </div>
+
+
+                        <h2 class="ereaders-section-heading">Tham khảo thêm</h2>
+                        <div class="ereaders-books ereaders-book-grid ereaders-book-related">
+                            <ul class="row">
+                                @foreach (var rltbook in Model.RelatedBooks)
+                                {
+                                    <li class="col-md-3">
+                                        <figure>
+                                            <a href=@Url.Action("Index", "Book", new { id = rltbook.Id })><img src=@rltbook.Image alt=@rltbook.Title></a>
+                                        </figure>
+                                        <div class="ereaders-book-grid-text">
+                                            <h2><a href=@Url.Action("Index", "Book", new { id = rltbook.Id })>@rltbook.Title</a></h2>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--// Main Section \\-->
+
+    </div>

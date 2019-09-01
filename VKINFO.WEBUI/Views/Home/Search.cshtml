@@ -1,0 +1,179 @@
+﻿@model VKINFO.APPLICATION.SearchUI.Queries.Search.SearchViewModel;
+
+@{
+    ViewData["Title"] = "Search";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<div class="container-fluid" style="padding: 20px 20px">
+    <div id="ui-view" style="background-color: #ffffff">
+        <div>
+            <h3>Kết quả tìm kiếm</h3>
+            <div class="animated fadeIn" style="border: 1px solid #f0f3f5;">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                            <div class="row" style=" padding-left: 15px; padding-right: 15px;">
+                                <div class="col-sm-12">
+                                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                                        <i class="fa fa-edit"></i> Thể loại
+                                    </div>
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" style="width: 281px;">Tên thể loại</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 240.2px;">Mô tả</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 150.2px;">Số lượng truyện</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Genres.Count == 0)
+                                            {
+                                                <h3 style="color: red">Không tìm thấy trong mục này</h3>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var item in Model.Genres)
+                                                {
+                                                    if (@item.Status == 1)
+                                                    {
+                                                        <tr role="row" class="odd">
+                                                            <td class="sorting_1"><a href=@Url.Action("Index", "GenreList", new { id = item.Id })>@item.Name</a></td>
+                                                            <td class="sorting_1">@item.Description</td>
+                                                            <td>@item.BookGenres.Count</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <br /><hr /><br />
+                                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                                        <i class="fa fa-edit"></i> Tác giả
+                                    </div>
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 240.2px;">Họ tên</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 240.2px;">Nghệ danh</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" style="width: 281px;">Mô tả</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 150.2px;">Số lượng truyện</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Authors.Count == 0)
+                                            {
+                                                <h3 style=" color: red">Không tìm thấy trong mục này</h3>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var item in Model.Authors)
+                                                {
+                                                    var check = item.Status;
+                                                    if (check == 1)
+                                                    {
+                                                        <tr role="row" class="odd">
+                                                            <td class="sorting_1"><a href=@Url.Action("Index", "Author", new { id = item.Id })>@item.FullName</a></td>
+                                                            <td class="sorting_1">@item.Nickname</td>
+                                                            <td class="sorting_1">@item.Description</td>
+                                                            <td class="sorting_1">@item.Books.Count()</td>
+                                                        </tr>
+
+                                                    }
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <br /><hr /><br />
+                                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                                        <i class="fa fa-edit"></i> Danh mục
+                                    </div>
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" style="width: 281px;">Tên danh mục</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 240.2px;">Mô tả</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 150.2px;">Số lượng truyện</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Categories.Count == 0)
+                                            {
+                                                <h3 style="color: red">Không tìm thấy trong mục này</h3>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var iterm in Model.Categories)
+                                                {
+                                                    var check = iterm.Status;
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1"><a href="@Url.Action("Index", "CategoryList", new { id = iterm.Id })">@iterm.Name</a></td>
+                                                        <td class="sorting_1">@iterm.Description</td>
+                                                        <td>@iterm.BookCategories.Count()</td>
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <br /><hr /><br />
+                                    <div class="card-header" style="background-color: #f0f3f5; padding:10px 20px 10px 20px ">
+                                        <i class="fa fa-edit"></i> Truyện
+                                    </div>
+                                    <table class="table table-striped table-bordered datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="border-collapse: collapse !important">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 240.2px;">Tên Truyện</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending" style="width: 221px;">Hình Ảnh</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 250.2px;">Giới Thiệu</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 140.2px;">Ngày Đăng</th>
+                                                <th class="sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121.8px;">Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Books.Count == 0)
+                                            {
+                                                <h3 style="color: red">Không tìm thấy trong mục này</h3>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var iterm in Model.Books)
+                                                {
+                                                    var check = iterm.Status;
+                                                    <tr role="row" class="odd">
+                                                        <td class="sorting_1"><a href="@Url.Action("Index", "Book", new { id = iterm.Id})">@iterm.Title</a></td>
+                                                        <td><a href="@Url.Action("Index", "Book", new { id = iterm.Id})"><img src="@iterm.Image" /></a></td>
+                                                        <td><p>@iterm.Description</p></td>
+                                                        <td>@iterm.DateCreated.ToString("MM/dd/yyyy")</td>
+                                                        @if (check == 1)
+                                                        {
+                                                            <td>
+                                                                <span class="badge badge-warning">Hoàn thành</span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <span class="badge badge-success">Chưa hoàn thành</span>
+                                                            </td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <br /><hr /><br />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
